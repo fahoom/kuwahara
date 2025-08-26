@@ -18,6 +18,6 @@ FetchContent_MakeAvailable(fmt)
 
 find_package(CUDAToolkit REQUIRED)
 
-add_executable(kuwuhara "src/main.cu")
+add_executable(kuwuhara "src/main.cu" "src/filter.cu" "src/utils.h" )
 target_link_libraries(kuwuhara fmt::fmt CUDA::cudart)
 
