@@ -20,6 +20,10 @@ static void writeImage(const char* path, const std::vector<float4>& data,
 __global__ void kuwuhara_filtering(const float4* input, float4* output,
                                    u32 width, u32 height, i32 radius);
 
+__global__ void generalized_kuwuhara_filtering(const float4* input, float4* output,
+                                   u32 width, u32 height, i32 radius, i32 N);
+
+
 int main() {
   u32 width, height;
   std::optional<std::vector<float4>> hImage =
@@ -43,7 +47,7 @@ int main() {
   dim3 grid((width + block.x - 1) / block.x, (height + block.y - 1) / block.y);
 
   fmt::println("Launching kuwahara kernel");
-  kuwuhara_filtering<<<grid, block>>>(dImage, dOutput, width, height, 10);
+  generalized_kuwuhara_filtering<<<grid, block>>>(dImage, dOutput, width, height, 10, 8);
   cudaDeviceSynchronize();
   fmt::println("Calculation finished!");
   
